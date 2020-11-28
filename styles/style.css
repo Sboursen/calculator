@@ -1,0 +1,127 @@
+body {
+    width: 100vw;
+    height: 100vh;
+    margin: 0px;
+    background-image: url(/ressources/images/background-image.jpg);
+    background-size: cover;
+}
+.main {
+    position: relative;
+    top: 50px;
+    margin: auto auto;
+    width: 700px;
+    height: 500px;
+    background-color: gray;
+    gap: 10px;
+    display: flex;
+    flex-direction: column;
+}
+/* styling input-output-clear area */
+.input-output-clear {
+    display: flex;
+    border: 2px solid gray;
+    border-bottom: 2px solid black;
+    flex: 0 0 100px;
+}
+.input-output-clear:hover {
+    border: 2px solid greenyellow;
+}
+/* styling .digits-operations area */
+.digits-operations {
+    flex: 1 1 auto;
+    display: grid;
+    grid-template-rows: repeat(4, 1fr);
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-areas:
+        'seven eight nine over'
+        'four five six times'
+        'one two three minus'
+        'zero dot equal plus';
+}
+
+/* assigning digits and operations to the correct grid-area */
+
+.digit,
+.operation {
+    margin: 15px 30px;
+    background-color: beige;
+    font-size: xx-large;
+    font-weight: bold;
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border-radius: 5%;
+}
+.digit:hover,
+.operation:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 0px 2px greenyellow;
+}
+.one {
+    grid-area: one;
+}
+.two {
+    grid-area: two;
+}
+.three {
+    grid-area: three;
+}
+.four {
+    grid-area: four;
+}
+.five {
+    grid-area: five;
+}
+.six {
+    grid-area: six;
+}
+.seven {
+    grid-area: seven;
+}
+.eight {
+    grid-area: eight;
+}
+.nine {
+    grid-area: nine;
+}
+.zero {
+    grid-area: zero;
+}
+.minus {
+    grid-area: minus;
+}
+.over {
+    grid-area: over;
+}
+.times {
+    grid-area: times;
+}
+.plus {
+    grid-area: plus;
+}
+.dot {
+    grid-area: dot;
+}
+.equal {
+    grid-area: equal;
+}
+
+.footer {
+    position: fixed;
+    font-size: x-large;
+    bottom: 5px;
+    width: 100%;
+    text-align: center;
+    padding: auto;
+}
+
+/* disable text selection (for most browsers) */
+.disable-select {
+    user-select: none; /* supported by Chrome and Opera */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+}
