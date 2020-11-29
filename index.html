@@ -2,8 +2,13 @@
 <html>
     <head>
         <title>Calculator</title>
-        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-        <link rel="stylesheet" href="/styles/style.css">
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+        <link rel="stylesheet" href="/styles/style.css" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap"
+            rel="stylesheet"
+        />
     </head>
 
     <body>
@@ -11,8 +16,11 @@
 
         <div class="main">
             <div class="input-output-clear">
-                <div class="clear"></div>
-                <div class="input-output"></div>
+                <div class="clear disable-select">CE</div>
+                <div class="input-output">
+                    <div class="input"></div>
+                    <div class="output"></div>
+                </div>
             </div>
             <div class="digits-operations disable-select">
                 <div class="digit one">1</div>
@@ -30,11 +38,11 @@
                 <div class="operation times">x</div>
                 <div class="operation over">/</div>
                 <div class="digit dot">.</div>
-                <div class="operation equal"> = </div>
+                <div class="operation equal">=</div>
             </div>
         </div>
 
         <footer class="footer">Copyright</footer>
     </body>
-    <script src="/scripts/main.js"></script>
+    <script type="module" src="/scripts/main.js"></script>
 </html>
