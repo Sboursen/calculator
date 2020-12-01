@@ -37,6 +37,45 @@ function factorial(n) {
     }
 }
 
-// function EvaluatExpression(stringExpression) {}
+function devide(a, b) {
+    return b !== 0 ? a / b : NaN;
+}
 
-export { add, subtract, sum, multiply, power, factorial };
+function mod(a, b) {
+    return a % b;
+}
+
+function percent(a) {
+    return a * 100;
+}
+
+function sign(a) {
+    return 0 - a;
+}
+
+function operate(operator, a, b) {
+    switch (operator) {
+        case 'plus':
+            return add(a, b);
+            break;
+        case 'minus':
+            return subtract(a, b);
+            break;
+        case 'times':
+            return multiply([a, b]);
+            break;
+        case 'over':
+            return devide(a, b);
+            break;
+        case 'mod':
+            return mod(a, b);
+            break;
+        case 'sign':
+            return sign(a);
+            break;
+        default:
+            console.error(`'unknown math operation' ${operator}`);
+    }
+}
+
+export { operate };

@@ -1,5 +1,5 @@
 //module imports:
-import * as operations from './operations.js';
+import { operate } from './operations.js';
 
 //setting the correct operation sign for each button
 const operationSignCode = {
@@ -8,41 +8,142 @@ const operationSignCode = {
     minus: 8722,
     plus: 43,
     equal: 61,
+    mod: 37,
+    clear: 'CE',
+    sign: 177,
 };
 const operationButtons = document.querySelectorAll('.operation');
 operationButtons.forEach((operation) => {
-    operation.textContent = String.fromCharCode(
-        operationSignCode[operation.classList[1]]
-    );
+    if (!operation.classList.contains('clear')) {
+        operation.textContent = String.fromCharCode(
+            operationSignCode[operation.classList[1]]
+        );
+    } else {
+        operation.textContent = operationSignCode['clear'];
+    }
 });
+
+const equalButton = Array.from(operationButtons).find((operation) =>
+    operation.classList.contains('equal')
+);
+const clearButton = Array.from(operationButtons).find((operation) =>
+    operation.classList.contains('clear')
+);
+const mathOperationButtons = Array.from(operationButtons).filter(
+    (operation) =>
+        !operation.classList.contains('clear') &&
+        !operation.classList.contains('equal')
+);
 
 //writing and clearing an expression in input field
 
-const inputField = document.querySelector('.input');
-const clearButton = document.querySelector('.clear');
+const inputField = document.querySelector('.input-output');
 const digitButtons = document.querySelectorAll('.digit');
-const outputField = document.querySelector('.output');
+let currentOperation = null;
+let takingInput = true;
+let ans = null;
+let a = null,
+    b = null;
 
 function onDigitButtonClicked(e) {
-    inputField.textContent = inputField.textContent + e.target.textContent;
+    if (takingInput === true) {
+        if (inputField.textContent.length < 15) {
+            if (e.target.classList.contains('dot')) {
+                if (inputField.textContent.split('').indexOf('.') === -1) {
+                    inputField.textContent += e.target.textContent;
+                }
+            } else {
+                inputField.textContent += e.target.textContent;
+            }
+        }
+    } else {
+        inputField.textContent = e.target.textContent;
+        takingInput = true;
+    }
+    console.log(`a = ${a} , b = ${b} , currentOperation = ${currentOperation}`);
 }
 
-function onOperationButtonClicked(e) {
-    inputField.textContent =
-        inputField.textContent + ' ' + e.target.textContent + ' ';
-
-    if (e.target.classList.contains('equal')) {
-        outputField.textContent = 'result';
+function onMathOperationButtonClicked(e) {
+    if (b === null) {
+        if (a === null) {
+            if (inputField.textContent !== '') {
+                a = Number(inputField.textContent);
+                takingInput = false;
+            }
+        } else if (takingInput === true) {
+            b = Number(inputField.textContent);
+        }
+        if (a !== null && b === null) {
+            currentOperation = Array.from(e.target.classList).find(
+                (op) => op !== 'operation'
+            );
+            if (currentOperation == 'sign') {
+                a = operate(currentOperation, a);
+                inputField.textContent = Number.isInteger(a)
+                    ? a
+                    : a.toPrecision(
+                          a.toString().length < 15 ? a.toString().length : 12
+                      );
+            }
+        }
     }
+
+    if (b !== null) {
+        if (currentOperation == 'sign') {
+            b = operate(currentOperation, b);
+            inputField.textContent = b;
+        } else {
+            a = operate(currentOperation, a, b);
+            inputField.textContent = Number.isInteger(a)
+                ? a
+                : a.toPrecision(
+                      a.toString().length < 15 ? a.toString().length : 12
+                  );
+            takingInput = false;
+            b = null;
+        }
+        currentOperation = Array.from(e.target.classList).find(
+            (op) => op !== 'operation'
+        );
+    }
+
+    console.log(`a = ${a} , b = ${b} , currentOperation = ${currentOperation}`);
+
+    console.log(`a = ${a} , b = ${b} , currentOperation = ${currentOperation}`);
+}
+
+function onEqualButtonClicked(e) {
+    if (currentOperation !== null && a !== null) {
+        if (takingInput === true) {
+            b = Number(inputField.textContent);
+            a = operate(currentOperation, a, b);
+            inputField.textContent = Number.isInteger(a)
+                ? a
+                : a.toPrecision(
+                      a.toString().length < 15 ? a.toString().length : 12
+                  );
+            takingInput = false;
+            b = null;
+            a = null;
+        }
+    }
+    console.log(`a = ${a} , b = ${b} , currentOperation = ${currentOperation}`);
 }
 
 function onClearButtonClicked(e) {
     inputField.textContent = '';
+    a = null;
+    b = null;
+    ans = null;
+    currentOperation = null;
+    takingInput = true;
 }
-clearButton.addEventListener('click', onClearButtonClicked);
+
 digitButtons.forEach((digit) =>
     digit.addEventListener('click', onDigitButtonClicked)
 );
-operationButtons.forEach((operation) =>
-    operation.addEventListener('click', onOperationButtonClicked)
+mathOperationButtons.forEach((operation) =>
+    operation.addEventListener('click', onMathOperationButtonClicked)
 );
+clearButton.addEventListener('click', onClearButtonClicked);
+equalButton.addEventListener('click', onEqualButtonClicked);
