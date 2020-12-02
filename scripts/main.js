@@ -45,6 +45,13 @@ let ans = null;
 let a = null,
     b = null;
 
+function formatOutput(output) {
+    let outputArray = output.toString().split('');
+    let out = output;
+    let result = outputArray.length < 12 ? output : out.toExponential(9);
+    return result;
+}
+
 function onDigitButtonClicked(e) {
     if (takingInput === true) {
         if (inputField.textContent.length < 15) {
@@ -79,11 +86,7 @@ function onMathOperationButtonClicked(e) {
             );
             if (currentOperation == 'sign') {
                 a = operate(currentOperation, a);
-                inputField.textContent = Number.isInteger(a)
-                    ? a
-                    : a.toPrecision(
-                          a.toString().length < 15 ? a.toString().length : 12
-                      );
+                inputField.textContent = formatOutput(a);
             }
         }
     }
@@ -94,11 +97,7 @@ function onMathOperationButtonClicked(e) {
             inputField.textContent = b;
         } else {
             a = operate(currentOperation, a, b);
-            inputField.textContent = Number.isInteger(a)
-                ? a
-                : a.toPrecision(
-                      a.toString().length < 15 ? a.toString().length : 12
-                  );
+            inputField.textContent = formatOutput(a);
             takingInput = false;
             b = null;
         }
@@ -117,11 +116,7 @@ function onEqualButtonClicked(e) {
         if (takingInput === true) {
             b = Number(inputField.textContent);
             a = operate(currentOperation, a, b);
-            inputField.textContent = Number.isInteger(a)
-                ? a
-                : a.toPrecision(
-                      a.toString().length < 15 ? a.toString().length : 12
-                  );
+            inputField.textContent = formatOutput(a);
             takingInput = false;
             b = null;
             a = null;
